@@ -1,9 +1,0 @@
-{
-    "fields": {
-        "description": "Automated Test", 
-        "labels": [
-            "regression",
-            "automation"
-        ]
-    }
-}

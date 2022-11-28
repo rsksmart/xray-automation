@@ -1,7 +1,7 @@
 {
   "name": "@xray-app/xray-automation",
   "version": "0.2.0",
-  "description": "Library for downloading/uploading tests (cucumber) & uploading test results to Xray Test Management",
+  "description": "Serves as a library to interact with XRay JIRA API",
   "type": "module",
   "main": "src/index.js",
   "scripts": {
@@ -14,10 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Xray-App/xray-automation-js.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Xray-App/xray-automation-js/issues"
+    "url": "https://github.com/rsksmart/xray-automation"
   },
   "keywords": [
     "xray",
@@ -25,7 +22,7 @@
     "test-automation",
     "jira"
   ],
-  "author": "Sergio Freire <sergio.freire@getxray.app>",
+  "author": "javicoin",
   "license": "BSD-3-Clause",
   "dependencies": {
     "adm-zip": "^0.5.9",
@@ -37,7 +34,7 @@
     "graphql": "^16.3.0",
     "graphql-request": "^4.1.0",
     "promise-retry": "^2.0.1",
-    "wdio-common": "git+https://github.com/javicoin/wdio-common.git"
+    "wdio-common": "git+https://github.com/rsksmart/wdio-common.git"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.20.0",

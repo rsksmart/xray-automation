@@ -237,33 +237,6 @@ In [Xray documentation](https://docs.getxray.app/display/XRAYCLOUD/Integrations)
 
 Sometimes teams may want to manage the logic for uploading test results (e.g., after finishing some task/event). This library can be useful in those scenarios, if you're using JavaScript and NodeJS.
 
-## Contact
-
-You may find me on [Twitter](https://twitter.com/darktelecom).
-Any questions related with this code, please raise issues in this GitHub project. Feel free to contribute and submit PR's.
-For Xray specific questions, please contact [Xray's support team](https://jira.getxray.app/servicedesk/customer/portal/2).
-
-## Disclaimer
-
-This project is in early stage; the setting names and other are subject to change.
-
-## Acknowledgments
-
-TBD
-
-## TO DOs
-
-- implement cucumber related operations/endpoints
-- timeout configuration for GraphQL requests
-- review/refactor tests
-- prettier and eslint-config-prettier?
-- REST API v1 support?
-- review error handling
-- review modules support
-- convert to TypeScript
-
-## [Changelog](CHANGELOG.md)
-
 ## References
 
 - [Importing test results (Xray server/datacenter)](https://docs.getxray.app/display/XRAY/Import+Execution+Results+-+REST)
@@ -275,6 +248,3 @@ TBD
 - [Using Personal Access Tokens (Xray datacenter)](https://confluence.atlassian.com/enterprise/using-personal-access-tokens-1026032365.html)
 - [API keys (client id + client secret pair) on Xray cloud](https://docs.getxray.app/display/XRAYCLOUD/Global+Settings%3A+API+Keys)
 
-## LICENSE
-
-[BSD 3-Clause](LICENSE)

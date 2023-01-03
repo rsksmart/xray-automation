@@ -72,5 +72,3 @@ export async function uploadCucumberFeatures(config) {
                 throw new Error(error.message || error._response);  
         });
 }
-
-submitCucumberTestResults('/Users/delolmoj/Documents/Repos/xray-automation/reports', '/Users/delolmoj/Documents/Repos/xray-automation/cucumberConfig.json')

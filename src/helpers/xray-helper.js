@@ -2,8 +2,11 @@ import XrayCloudClient from '../xray-cloud-client.js';
 import XrayErrorResponse from '../xray-error-response.js';
 import XrayCloudResponseV2 from '../xray-cloud-response-v2.js';
 import FilesHelper from 'wdio-common/helpers/utils/file-helper.js';
+import MergeReportHelper from 'wdio-common/lib/merge-reports.js';
 
-export async function submitCucumberTestResults(resultsFile, config) {      
+export async function submitCucumberTestResults(reportsDirectory, config) {     
+    const resultsFile = MergeReportHelper.mergeJsonReports(reportsDirectory);
+
     const multipartConfig = FilesHelper.getJsonContent(config);
     
     console.log('Uploading reports to Jira Xray...');

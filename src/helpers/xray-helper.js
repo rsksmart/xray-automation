@@ -72,3 +72,24 @@ export async function uploadCucumberFeatures(config) {
                 throw new Error(error.message || error._response);  
         });
 }
+
+export async function updateTestRunComment(testIssueKey, testExecIssueKey, comment) {       
+    
+    const xrayClient = new XrayCloudClient();
+    const testIssueId = await xrayClient.getTestId(testIssueKey);
+    const testExecIssueId = await xrayClient.getTestExecutionsId(testExecIssueKey);
+    const testRunId = await xrayClient.getTestRunId(testIssueId, testExecIssueId);
+    
+    return xrayClient.updateTestRunComment(testRunId, comment)
+        .then( function(response) {
+            return new XrayCloudResponseV2(response);
+        }).catch( function(error) {
+            if (error._response !== undefined && error._response.status == 400 )
+                throw new Error('ERROR!');   
+            else
+                return new XrayErrorResponse(error);
+        });
+}
+
+const res = await updateTestRunComment("US-401", "US-1254", "automated comment");
+console.log(res);

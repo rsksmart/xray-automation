@@ -12,7 +12,7 @@ export async function getSessionPublicLink(sessionID) {
             else if (error.body !== undefined)
                 throw new Error(error.body.error);
             else
-                throw new Error(error.message || error._response);  
+                throw new Error(error.message || error._response || error);  
         });
 }
 

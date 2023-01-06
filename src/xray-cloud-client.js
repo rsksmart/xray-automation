@@ -309,6 +309,68 @@ class XrayCloudClient {
         });
     }
 
+    async getTestId(testIssueKey) {
+        return this.authenticate().then(authToken => {
+            const graphQLEndpoint = xrayCloudBaseUrl + "/graphql";
+            const graphQLClient = new GraphQLClient(graphQLEndpoint, {
+                headers: {
+                  authorization: 'Bearer ' + authToken,
+                },
+              })
+
+              const query = gql`
+                {
+                    getTests(jql: "key = ${testIssueKey}", limit: 1) {
+                        total
+                        results {
+                            issueId
+                        }
+                    }
+                }
+            `
+
+            return graphQLClient.request(query);
+        }).then(function(response) {
+            return response.getTests.results[0].issueId;
+        }).catch(function(error) {
+            let errorMessages = error.response.errors.map(function(err) {
+                return err.message;
+            });
+            throw new XrayCloudGraphQLErrorResponse(error, errorMessages);
+        });
+    }
+
+    async getTestExecutionsId(testExecIssueKey) {
+        return this.authenticate().then(authToken => {
+            const graphQLEndpoint = xrayCloudBaseUrl + "/graphql";
+            const graphQLClient = new GraphQLClient(graphQLEndpoint, {
+                headers: {
+                  authorization: 'Bearer ' + authToken,
+                },
+              })
+
+              const query = gql`
+                {
+                    getTestExecutions(jql: "key = ${testExecIssueKey}", limit: 1) {
+                        total
+                        results {
+                            issueId
+                        }
+                    }
+                }
+            `
+
+            return graphQLClient.request(query);
+        }).then(function(response) {
+            return response.getTestExecutions.results[0].issueId;
+        }).catch(function(error) {
+            let errorMessages = error.response.errors.map(function(err) {
+                return err.message;
+            });
+            throw new XrayCloudGraphQLErrorResponse(error, errorMessages);
+        });
+    }
+
     async downloadCucumberFeatures(config) {		
         if (config.featuresPath === undefined || config.featuresPath === "")
             throw new XrayErrorResponse("ERROR: features path must be specified (config file)");
@@ -435,6 +497,76 @@ class XrayCloudClient {
                 throw new XrayErrorResponse(error.response);
             else
                 throw new XrayErrorResponse(error.message || error._response);
+        });
+    }
+
+    async getTestRunId(testIssueId, testExecIssueId) {
+        return this.authenticate().then(authToken => {
+            const graphQLEndpoint = xrayCloudBaseUrl + "/graphql";
+            const graphQLClient = new GraphQLClient(graphQLEndpoint, {
+                headers: {
+                  authorization: 'Bearer ' + authToken,
+                },
+              })
+
+              const query = gql`
+                {
+                    getTestRun(testIssueId: "${testIssueId}", testExecIssueId: "${testExecIssueId}") {
+                        id
+                    }
+                }
+            `
+
+            return graphQLClient.request(query);
+        }).then(function(response) {
+            return response.getTestRun.id;
+        }).catch(function(error) {
+            let errorMessages = error.response.errors.map(function(err) {
+                return err.message;
+            });
+            throw new XrayCloudGraphQLErrorResponse(error, errorMessages);
+        });
+    }
+
+    async updateTestRunComment(testRunId, comment) {
+        console.log(testRunId);
+        // use a CancelToken as the timeout setting is not reliable
+        const cancelTokenSource = axios.CancelToken.source();
+        const timeoutFn = setTimeout(() => {
+            cancelTokenSource.cancel("request timeout");
+        }, this.timeout);
+
+        return axios.post(authenticateUrl, { "client_id": this.clientId, "client_secret": this.clientSecret }, {
+            timeout: this.timeout,
+            cancelToken: cancelTokenSource.token
+        }).then( (response) => {
+            clearTimeout(timeoutFn);
+            var authToken = response.data;          
+            return authToken;
+        }).then( authToken => {
+            const graphQLEndpoint = xrayCloudBaseUrl + "/graphql";
+            const graphQLClient = new GraphQLClient(graphQLEndpoint, {
+                headers: {
+                  authorization: 'Bearer ' + authToken,
+                },
+              })
+
+              const mutation = gql`
+              mutation {
+                updateTestRunComment( id: "${testRunId}", comment: "${comment}")
+            }
+            `
+
+            return graphQLClient.request(mutation);
+        }).then(function(response) {
+            return response;
+            //return response.data.addTestExecutionsToTestPlan.addedTestExecutions[0] || testExecIssueId;
+            //return new XrayCloudGraphQLResponseV2(response, response.data.addTestExecutionsToTestPlan.addedTestExecutions[0] || testExecIssueId);  
+        }).catch(function(error) {
+            let errorMessages = error.response.errors.map(function(err) {
+                return err.message;
+            });
+            throw new XrayCloudGraphQLErrorResponse(error, errorMessages);
         });
     }
 

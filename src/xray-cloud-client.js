@@ -6,25 +6,12 @@ import path from 'path';
 import FormData from 'form-data';
 import XrayErrorResponse from './xray-error-response.js';
 import XrayCloudResponseV2 from './xray-cloud-response-v2.js';
-// import XrayCloudGraphQLResponseV2 from './xray-cloud-graphql-response-v2.js';
 import XrayCloudGraphQLErrorResponse from './xray-cloud-graphql-error-response.js';
 import { XRAY_FORMAT, JUNIT_FORMAT, TESTNG_FORMAT, ROBOT_FORMAT, NUNIT_FORMAT, XUNIT_FORMAT, CUCUMBER_FORMAT, BEHAVE_FORMAT } from './index.js';
 import AdmZip from 'adm-zip';
 import arrayBufferToBuffer from 'arraybuffer-to-buffer';
 import * as dotenv from 'dotenv';
 dotenv.config()
-
-/*
-// import { request, GraphQLClient } from 'graphql-request'
-/// var request = require('graphql-request').request;
-var GraphQLClient = require('graphql-request').GraphQLClient;
-var gql = require('graphql-request').gql;
-var axios = require('axios');
-var fs = require('fs');
-var FormData = require('form-data');
-const  XrayErrorResponse = require('./xray-error-response.js')
-const  XrayCloudResponseV2 = require('./xray-cloud-response-v2.js')
-*/
 
 const xrayCloudBaseUrl = "https://xray.cloud.getxray.app/api/v2";        
 const authenticateUrl = xrayCloudBaseUrl + "/authenticate";
@@ -269,7 +256,6 @@ class XrayCloudClient {
             return graphQLClient.request(mutation);
         }).then(function(response) {
             return response.data.addTestExecutionsToTestPlan.addedTestExecutions[0] || testExecIssueId;
-            //return new XrayCloudGraphQLResponseV2(response, response.data.addTestExecutionsToTestPlan.addedTestExecutions[0] || testExecIssueId);  
         }).catch(function(error) {
             let errorMessages = error.response.errors.map(function(err) {
                 return err.message;
@@ -472,7 +458,6 @@ class XrayCloudClient {
             try {
                 // features Zip file creation
                 zipFile.addLocalFolder(config.featuresPath, 'features');
-                // fs.writeFileSync('./tmp/features/features.zip', zipFile.toBuffer());
                 zipFile.writeZip('./tmp/features/features.zip');
                 // Encapsulating features file into a FormData to be sent
                 const featuresFileStream = fs.createReadStream('./tmp/features/features.zip');
@@ -560,8 +545,6 @@ class XrayCloudClient {
             return graphQLClient.request(mutation);
         }).then(function(response) {
             return response;
-            //return response.data.addTestExecutionsToTestPlan.addedTestExecutions[0] || testExecIssueId;
-            //return new XrayCloudGraphQLResponseV2(response, response.data.addTestExecutionsToTestPlan.addedTestExecutions[0] || testExecIssueId);  
         }).catch(function(error) {
             let errorMessages = error.response.errors.map(function(err) {
                 return err.message;

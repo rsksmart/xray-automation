@@ -15,7 +15,3 @@ export async function getSessionPublicLink(sessionID) {
                 throw new Error(error.message || error._response || error);  
         });
 }
-
-
-const publicLink = await getSessionPublicLink("f2b08e6a82dff962b9dd450b736392fd8589b887");
-console.log(publicLink);

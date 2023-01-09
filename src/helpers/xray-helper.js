@@ -90,6 +90,3 @@ export async function updateTestRunComment(testIssueKey, testExecIssueKey, comme
                 return new XrayErrorResponse(error);
         });
 }
-
-const res = await updateTestRunComment("US-401", "US-1254", "automated comment");
-console.log(res);

@@ -4,7 +4,7 @@ import XrayCloudResponseV2 from '../xray-cloud-response-v2.js';
 import FilesHelper from 'wdio-common/helpers/utils/file-helper.js';
 import MergeReportHelper from 'wdio-common/lib/merge-reports.js';
 
-export async function submitCucumberTestResults(reportsDirectory, config) {     
+export async function submitCucumberTestResults(reportsDirectory, config, testEvidenceFile) {     
     const resultsFile = MergeReportHelper.mergeJsonReports(reportsDirectory);
 
     const multipartConfig = FilesHelper.getJsonContent(config);
@@ -15,6 +15,7 @@ export async function submitCucumberTestResults(reportsDirectory, config) {
     return xrayClient.submitResultsMultipart(resultsFile, multipartConfig)
         .then( response => { 
             console.log('Test Execution created: \'' + baseURL + response.key + '\'');
+            FilesHelper.editJsonByKey(testEvidenceFile, 'testExecutionKey', response.key);
             // DEBUG return new XrayCloudResponseV2(response);
         }).catch( error => { 
             if (error.body !== undefined)

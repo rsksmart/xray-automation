@@ -4,6 +4,7 @@ import XrayErrorResponse from './xray-error-response.js';
 import XrayDatacenterResponseV1 from './xray-datacenter-response-v1.js';
 import XrayDatacenterResponseV2 from './xray-datacenter-response-v2.js';
 import XrayCloudResponseV2 from './xray-cloud-response-v2.js';
+import BrowserstackSession from './browserstack-session.js';
 
 const XRAY_FORMAT = 'xray';
 const JUNIT_FORMAT = 'junit';
@@ -29,5 +30,6 @@ export {
     XrayErrorResponse,
     XrayDatacenterResponseV1,
     XrayDatacenterResponseV2,
-    XrayCloudResponseV2
+    XrayCloudResponseV2,
+    BrowserstackSession
 };

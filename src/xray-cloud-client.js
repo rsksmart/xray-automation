@@ -29,7 +29,7 @@ class XrayCloudClient {
 
         this.clientId = clientId;
         this.clientSecret = clientSecret;
-        this.timeout = 20000;
+        this.timeout = 300000;
         axios.defaults.timeout = this.timeout;
     }
 

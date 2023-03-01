@@ -108,3 +108,24 @@ export async function updateTestRunEvidence(testEvidenceFile) {
     }
     console.log('Browserstack public links added successfully in Test Execution \'' + baseURL + testEvidenceJson.testExecutionKey + '\'');    
 }
+
+export async function submitTestResults(reportFilePath, config) {     
+    
+    const multipartConfig = FilesHelper.getJsonContent(config);
+    
+    console.log('Uploading reports to Jira Xray...');
+    const xrayClient = new XrayCloudClient();
+
+    return xrayClient.submitResultsMultipart(reportFilePath, multipartConfig)
+        .then( response => { 
+            console.log('Test Execution created: \'' + baseURL + response.key + '\'');
+            // DEBUG return new XrayCloudResponseV2(response);
+        }).catch( error => { 
+            if (error.body !== undefined)
+                throw new Error(error.body.error);
+            else if (error._response !== undefined)
+                throw new Error(error._response);
+            else
+                return new XrayCloudResponseV2(error);
+        });
+}

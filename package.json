@@ -5,7 +5,8 @@
   "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "lint": "eslint '**/*.js' --ignore-pattern node_modules/"
+    "lint": "eslint '**/*.js' --ignore-pattern node_modules/",
+    "test:junit:submit_results": "npx run-func src/helpers/xray-helper.js submitTestResults src/config/xray/junit.xml src/config/xray/config.json"
   },
   "repository": {
     "type": "git",
@@ -17,7 +18,7 @@
     "test-automation",
     "jira"
   ],
-  "author": "javicoin",
+  "author": "IOV Labs QA team",
   "dependencies": {
     "adm-zip": "^0.5.9",
     "arraybuffer-to-buffer": "0.0.7",
@@ -28,7 +29,8 @@
     "graphql": "^16.3.0",
     "graphql-request": "^4.1.0",
     "promise-retry": "^2.0.1",
-    "wdio-common": "git+https://github.com/rsksmart/wdio-common.git"
+    "wdio-common": "git+https://github.com/rsksmart/wdio-common.git",
+    "run-func": "^3.0.0"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.20.0",

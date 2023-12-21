@@ -6,7 +6,7 @@ import MergeReportHelper from 'wdio-common/lib/merge-reports.js';
 
 const baseURL = 'https://rsklabs.atlassian.net/browse/';
 
-export async function submitCucumberTestResults(reportsDirectory, config, testEvidenceFile) {     
+export async function submitCucumberTestResults(reportsDirectory, config, testEvidenceFile = null) {     
     const resultsFile = MergeReportHelper.mergeJsonReports(reportsDirectory);
 
     const multipartConfig = FilesHelper.getJsonContent(config);
@@ -17,7 +17,8 @@ export async function submitCucumberTestResults(reportsDirectory, config, testEv
     return xrayClient.submitResultsMultipart(resultsFile, multipartConfig)
         .then( response => { 
             console.log('Test Execution created: \'' + baseURL + response.key + '\'');
-            FilesHelper.editJsonByKey(testEvidenceFile, 'testExecutionKey', response.key);
+            if (testEvidenceFile)
+                FilesHelper.editJsonByKey(testEvidenceFile, 'testExecutionKey', response.key);
             // DEBUG return new XrayCloudResponseV2(response);
         }).catch( error => { 
             if (error.body !== undefined)

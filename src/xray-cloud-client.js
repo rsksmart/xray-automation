@@ -29,7 +29,7 @@ class XrayCloudClient {
 
         this.clientId = clientId;
         this.clientSecret = clientSecret;
-        this.timeout = 300000;
+        this.timeout = (xraySettings !== undefined && xraySettings.timeout) ? xraySettings.timeout : 300000;
         axios.defaults.timeout = this.timeout;
     }
 
@@ -462,6 +462,10 @@ class XrayCloudClient {
                 // Encapsulating features file into a FormData to be sent
                 const featuresFileStream = fs.createReadStream('./tmp/features/features.zip');
                 featuresData.append('file', featuresFileStream, 'features.zip');
+                // Attach testInfo if present (provides default Jira fields for created Test issues)
+                if (config.testInfo) {
+                   featuresData.append('testInfo', JSON.stringify(config.testInfo), { filename: 'testInfo.json', contentType: 'application/json' });
+                }
             } catch(error) {
                 throw new XrayErrorResponse(error.message);
             }
